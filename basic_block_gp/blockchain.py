@@ -1,3 +1,5 @@
+# the significance of the proof stuff is murkiest
+
 import hashlib
 import json
 from time import time
@@ -41,6 +43,7 @@ class Blockchain(object):
       'timestamp': time(),
       'transactions': self.current_transactions,
       'proof': proof,
+      # if not none or the previous block hashed
       'previous_hash': previous_hash or self.hash(self.chain[-1]),
     }
 
@@ -105,7 +108,7 @@ class Blockchain(object):
     in an effort to find a number that is a valid proof
     :return: A valid proof for the provided block
     """
-    # Stringify the block
+    # Stringify the last block
     string_object = json.dumps(self.last_block, sort_keys=True)
 
     proof = 0
@@ -127,8 +130,10 @@ class Blockchain(object):
     correct number of leading zeroes.
     :return: True if the resulting hash is a valid proof, False otherwise
     """
+    # add the current proof from loop to the block and hash it
     guess = f'{block_string}{proof}'.encode()
     guess_hash = hashlib.sha256(guess).hexdigest()
+    # valid proof has to have three 0s in the beginning
     if guess_hash[:3] == '000':
       print(guess_hash)
       return True
@@ -148,9 +153,12 @@ blockchain = Blockchain()
 def mine():
   # Run the proof of work algorithm to get the next proof
 
+  # changing the transaction in a block, causes the prev_hash value in the next block to be wrong. and because it's wrong, the attacker has to regenerate any remaining blocks after it in the arr. and this is hard to do cuz we brute force the proof
   proof = blockchain.proof_of_work()
 
   # Forge the new Block by adding it to the chain with the proof
+
+  # easy to check whether a previous hash is correct
   previous_hash = blockchain.hash(blockchain.last_block)
   block = blockchain.new_block(proof, previous_hash)
 
