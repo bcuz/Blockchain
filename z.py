@@ -136,7 +136,6 @@ node_identifier = str(uuid4()).replace('-', '')
 # Instantiate the Blockchain
 blockchain = Blockchain()
 
-
 @app.route('/mine', methods=['GET'])
 def mine():
   # Run the proof of work algorithm to get the next proof
@@ -178,4 +177,13 @@ def full_chain():
 # if __name__ == '__main__':
 #   app.run(host='0.0.0.0', port=5000)
 
-print(blockchain.chain)
+# print(type(blockchain.last_block))
+# print(blockchain.last_block)
+string_object = json.dumps(blockchain.last_block, sort_keys=True)
+# print(type(string_object))
+# print(string_object)
+
+block_string = string_object.encode()
+print(block_string)
+hash_object = hashlib.sha256(block_string)
+print(hash_object)
