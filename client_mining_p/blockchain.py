@@ -146,7 +146,6 @@ node_identifier = str(uuid4()).replace('-', '')
 # Instantiate the Blockchain
 blockchain = Blockchain()
 
-
 @app.route('/mine', methods=['POST'])
 def mine():
   # Run the proof of work algorithm to get the next proof
