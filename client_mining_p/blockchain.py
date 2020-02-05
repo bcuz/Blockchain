@@ -160,6 +160,12 @@ def mine():
   data = request.get_json()
   # print(data)
 
+  # if specific proof already in the chain, reject it
+
+  for blk in blockchain.chain:
+    if data['proof'] == blk['proof']:
+      return jsonify({'message': 'proof already used, bruh'}), 400      
+
   previous_hash = blockchain.hash(blockchain.last_block)
   block = blockchain.new_block(data['proof'], previous_hash)
 
