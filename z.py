@@ -184,6 +184,8 @@ string_object = json.dumps(blockchain.last_block, sort_keys=True)
 # print(string_object)
 
 block_string = string_object.encode()
-print(block_string)
+# print(block_string)
 hash_object = hashlib.sha256(block_string)
-print(hash_object)
+# print(hash_object)
+
+print(blockchain.hash({"index":3,"previous_hash":"b49320d0a324e3635109e2bdd73620611c62913b7d4fa0b311c49f55ec9ff195","proof":1376777,"timestamp":1580874255.7458124,"transactions":[]}))
