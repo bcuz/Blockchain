@@ -34,7 +34,15 @@ def valid_proof(block_string, proof):
   correct number of leading zeroes.
   :return: True if the resulting hash is a valid proof, False otherwise
   """
-  pass
+  # add the current proof from loop to the block and hash it
+  guess = f'{block_string}{proof}'.encode()
+  guess_hash = hashlib.sha256(guess).hexdigest()
+  # valid proof has to have three 0s in the beginning
+  if guess_hash[:6] == '000000':    
+  # if guess_hash[:3] == '000':
+    # print(guess_hash)
+    return True
+  return False
 
 
 if __name__ == '__main__':
@@ -63,7 +71,8 @@ if __name__ == '__main__':
       break
 
     # TODO: Get the block from `data` and use it to look for a new proof
-    # new_proof = ???
+    new_proof = proof_of_work(data)
+    print(new_proof)
 
     # When found, POST it to the server {"proof": new_proof, "id": id}
     post_data = {"proof": new_proof, "id": id}

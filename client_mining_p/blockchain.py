@@ -132,7 +132,7 @@ class Blockchain(object):
     guess = f'{block_string}{proof}'.encode()
     guess_hash = hashlib.sha256(guess).hexdigest()
     # valid proof has to have three 0s in the beginning
-    if guess_hash[:3] == '000000':
+    if guess_hash[:6] == '000000':
       print(guess_hash)
       return True
     return False
