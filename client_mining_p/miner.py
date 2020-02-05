@@ -13,7 +13,7 @@ def proof_of_work(block):
   in an effort to find a number that is a valid proof
   :return: A valid proof for the provided block
   """
-  string_object = json.dumps(last_block, sort_keys=True)
+  string_object = json.dumps(block, sort_keys=True)
 
   proof = 0
 
