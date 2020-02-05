@@ -98,23 +98,23 @@ class Blockchain(object):
   def last_block(self):
     return self.chain[-1]
 
-  def proof_of_work(self):
-    """
-    Simple Proof of Work Algorithm
-    Stringify the block and look for a proof.
-    Loop through possibilities, checking each one against `valid_proof`
-    in an effort to find a number that is a valid proof
-    :return: A valid proof for the provided block
-    """
-    # Stringify the last block
-    string_object = json.dumps(self.last_block, sort_keys=True)
+  # def proof_of_work(self):
+  #   """
+  #   Simple Proof of Work Algorithm
+  #   Stringify the block and look for a proof.
+  #   Loop through possibilities, checking each one against `valid_proof`
+  #   in an effort to find a number that is a valid proof
+  #   :return: A valid proof for the provided block
+  #   """
+  #   # Stringify the last block
+  #   string_object = json.dumps(self.last_block, sort_keys=True)
 
-    proof = 0
+  #   proof = 0
 
-    while self.valid_proof(string_object, proof) is False:
-      proof += 1
+  #   while self.valid_proof(string_object, proof) is False:
+  #     proof += 1
 
-    return proof
+  #   return proof
 
   @staticmethod
   def valid_proof(block_string, proof):
@@ -132,7 +132,7 @@ class Blockchain(object):
     guess = f'{block_string}{proof}'.encode()
     guess_hash = hashlib.sha256(guess).hexdigest()
     # valid proof has to have three 0s in the beginning
-    if guess_hash[:3] == '000':
+    if guess_hash[:3] == '000000':
       print(guess_hash)
       return True
     return False
