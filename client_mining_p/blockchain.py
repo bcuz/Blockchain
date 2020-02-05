@@ -160,21 +160,18 @@ def mine():
   data = request.get_json()
   # print(data)
 
-  # previous_hash = blockchain.hash(blockchain.last_block)
-  # block = blockchain.new_block(data['proof'], previous_hash)
+  previous_hash = blockchain.hash(blockchain.last_block)
+  block = blockchain.new_block(data['proof'], previous_hash)
 
-  # response = {
-  #   'message': 'We mined a new block!',
-  #   'index': block['index'],
-  #   'transactions': block['transactions'],
-  #   'proof': block['proof'],
-  #   'previous_hash': block['previous_hash']
-  # }
+  response = {
+    'message': 'We mined a new block!',
+    'index': block['index'],
+    'transactions': block['transactions'],
+    'proof': block['proof'],
+    'previous_hash': block['previous_hash']
+  }
 
-  return jsonify(data), 200
-
-
-
+  return jsonify(response), 200
 
 @app.route('/chain', methods=['GET'])
 def full_chain():

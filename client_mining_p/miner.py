@@ -39,7 +39,7 @@ def valid_proof(block_string, proof):
   guess_hash = hashlib.sha256(guess).hexdigest()
   # valid proof has to have three 0s in the beginning
   # if guess_hash[:6] == '000000':    
-  if guess_hash[:3] == '000':
+  if guess_hash[:5] == '00000':
     # print(guess_hash)
     return True
   return False
@@ -59,6 +59,7 @@ if __name__ == '__main__':
   f.close()
 
   # Run forever until interrupted
+  count = 0
   while True:
     r = requests.get(url=node + "/last_block")
     # Handle non-json response
@@ -79,13 +80,12 @@ if __name__ == '__main__':
     post_data = {"proof": new_proof, "id": id}
 
     r = requests.post(url=node + "/mine", json=post_data)
-    # print(r)
-    # break
+  
     data = r.json()
-    print(data)
-    break
 
     # TODO: If the server responds with a 'message' 'New Block Forged'
     # add 1 to the number of coins mined and print it.  Otherwise,
     # print the message from the server.
-    pass
+    if data['message'] == 'We mined a new block!':
+      count += 1
+      print(count)
