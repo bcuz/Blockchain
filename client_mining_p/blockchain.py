@@ -146,7 +146,6 @@ node_identifier = str(uuid4()).replace('-', '')
 # Instantiate the Blockchain
 blockchain = Blockchain()
 
-
 @app.route('/mine', methods=['POST'])
 def mine():
   # Run the proof of work algorithm to get the next proof
@@ -159,6 +158,12 @@ def mine():
   # # easy to check whether a previous hash is correct
   data = request.get_json()
   # print(data)
+
+  # if specific proof already in the chain, reject it
+
+  for blk in blockchain.chain:
+    if data['proof'] == blk['proof']:
+      return jsonify({'message': 'proof already used, bruh'}), 400      
 
   previous_hash = blockchain.hash(blockchain.last_block)
   block = blockchain.new_block(data['proof'], previous_hash)

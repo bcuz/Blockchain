@@ -89,3 +89,5 @@ if __name__ == '__main__':
     if data['message'] == 'We mined a new block!':
       count += 1
       print(count)
+    else:
+      print(data['message'])
