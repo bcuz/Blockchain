@@ -147,28 +147,33 @@ node_identifier = str(uuid4()).replace('-', '')
 blockchain = Blockchain()
 
 
-@app.route('/mine', methods=['GET'])
+@app.route('/mine', methods=['POST'])
 def mine():
   # Run the proof of work algorithm to get the next proof
 
   # changing the transaction in a block, causes the prev_hash value in the next block to be wrong. and because it's wrong, the attacker has to regenerate any remaining blocks after it in the arr. and this is hard to do cuz we brute force the proof
-  proof = blockchain.proof_of_work()
+  # proof = blockchain.proof_of_work()
 
-  # Forge the new Block by adding it to the chain with the proof
+  # # Forge the new Block by adding it to the chain with the proof
 
-  # easy to check whether a previous hash is correct
-  previous_hash = blockchain.hash(blockchain.last_block)
-  block = blockchain.new_block(proof, previous_hash)
+  # # easy to check whether a previous hash is correct
+  data = request.get_json()
+  # print(data)
 
-  response = {
-    'message': 'We mined a new block!',
-    'index': block['index'],
-    'transactions': block['transactions'],
-    'proof': block['proof'],
-    'previous_hash': block['previous_hash']
-  }
+  # previous_hash = blockchain.hash(blockchain.last_block)
+  # block = blockchain.new_block(data['proof'], previous_hash)
 
-  return jsonify(response), 200
+  # response = {
+  #   'message': 'We mined a new block!',
+  #   'index': block['index'],
+  #   'transactions': block['transactions'],
+  #   'proof': block['proof'],
+  #   'previous_hash': block['previous_hash']
+  # }
+
+  return jsonify(data), 200
+
+
 
 
 @app.route('/chain', methods=['GET'])
