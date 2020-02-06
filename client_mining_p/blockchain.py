@@ -5,13 +5,6 @@ from uuid import uuid4
 
 from flask import Flask, jsonify, request
 
-# DONE new_block
-# DONE hash
-# DONE proof_of_work
-# DONE valid_proof
-# DONE /chain endpoint
-# DONE /mine endpoint
-
 class Blockchain(object):
     def __init__(self):
         self.chain = []
@@ -111,7 +104,25 @@ class Blockchain(object):
         """
         guess = f'{block_string}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
-        return guess_hash[:5] == '00000'
+        return guess_hash[:6] == '000000'
+
+    def new_transaction(self, sender, recipient, amount):
+        """
+        :param sender: <str> Address of the Recipient
+        :param recipient: <str> Address of the Recipient
+        :param amount: <int> Amount
+        :return: <int> The index of the `block` that will hold this transaction
+        """
+        transaction = {'sender': sender,
+                       'recipient': recipient,
+                       'amount': amount,
+        }
+        self.current_transactions.append(transaction)
+
+        index = len(self.chain) + 1
+
+        return index
+
 
 # Instantiate our Node
 app = Flask(__name__)
@@ -125,6 +136,8 @@ def last_block():
     response = {'last_block': last_block}
 
     return jsonify(response), 200
+
+
 
 @app.route('/mine', methods=['POST'])
 def mine():
@@ -141,6 +154,8 @@ def mine():
     block_string = json.dumps(blockchain.last_block, sort_keys=True)
 
     if blockchain.valid_proof(block_string, proof):
+
+        blockchain.new_transaction("0", miner_id, 1)
 
         # Forge the new Block by adding it to the chain with the proof
         previous_hash = blockchain.hash(blockchain.last_block)
@@ -170,6 +185,26 @@ def full_chain():
         'length': len(blockchain.chain)
     }
     return jsonify(response), 200
+
+@app.route('/transactions/new', methods=['POST'])
+def new_transaction():
+    data = request.get_json()
+
+    required_properties = ['sender', 'recipient', 'amount']
+    if not all(k in data for k in required_properties):
+    # if 'sender' not in data or 'recipient' not in data or 'amount' not in data:
+        response = {'message': 'required properties not included'}
+        return jsonify(response), 400
+
+    sender = data['sender']
+    recipient = data['recipient']
+    amount = data['amount']
+    index = blockchain.new_transaction(sender, recipient, amount)
+
+    response = {'message': f'added to block {index}'}
+
+    return jsonify(response), 201
+
 
 
 # Run the program on port 5000
