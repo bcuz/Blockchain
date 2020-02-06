@@ -154,6 +154,8 @@ def mine():
 
   # if specific proof already in the chain, reject it
 
+  # proof not validated server side, which is necessary, otherwise 
+  # we will accept any non-duplicate proof client gives us.
   for blk in blockchain.chain:
     if data['proof'] == blk['proof']:
       return jsonify({'message': 'proof already used, bruh'}), 400      
