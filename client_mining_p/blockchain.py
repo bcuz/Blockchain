@@ -153,6 +153,10 @@ def mine():
 
     block_string = json.dumps(blockchain.last_block, sort_keys=True)
 
+    # takes last block and adds proof to it to see if its valid
+    # once it's validated and the block added, any other miners will have to restart
+    # cuz that proof wont work on the newly added block.
+
     if blockchain.valid_proof(block_string, proof):
 
         blockchain.new_transaction("0", miner_id, 1)
