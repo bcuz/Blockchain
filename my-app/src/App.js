@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
+import Result from './components/Result';
 
 class App extends Component {
   state = {
@@ -36,8 +37,7 @@ class App extends Component {
           />
           <button type="submit">Submit</button>
           </form>
-          {/* might have to edit this a bit*/}
-          {this.state.chain.length > 0 ? <p>{this.state.chain.length}</p> : null}          
+          {this.state.chain.length > 0 ? <Result chain={this.state.chain} /> : null}          
       </div>
     );    
   }
