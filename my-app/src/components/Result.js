@@ -11,9 +11,9 @@ class Result extends Component {
 
         // way this is written will reject anything sent to yourself
         if (trans.recipient === this.props.id && trans.sender !== this.props.id) {
-          total += trans.amount             
+          total += parseInt(trans.amount)
         } else if (trans.recipient !== this.props.id && trans.sender === this.props.id) {
-          total -= trans.amount
+          total -= parseInt(trans.amount)
         }
       }
     }
