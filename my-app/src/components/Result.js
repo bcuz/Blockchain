@@ -7,13 +7,14 @@ class Result extends Component {
     var total = 0
 
     for (var block of this.props.chain.chain) {
-      for (var transaction of block.transactions) {
+      for (var trans of block.transactions) {
 
-        // if getter, increment
-        // if sender, decrement
-        console.log(transaction.recipient);
-
-
+        // way this is written will reject anything sent to yourself
+        if (trans.recipient === this.props.id && trans.sender !== this.props.id) {
+          total += trans.amount             
+        } else if (trans.recipient !== this.props.id && trans.sender === this.props.id) {
+          total -= trans.amount
+        }
       }
     }
 
