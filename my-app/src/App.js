@@ -37,7 +37,7 @@ class App extends Component {
           />
           <button type="submit">Submit</button>
           </form>
-          {this.state.chain.length > 0 ? <Result chain={this.state.chain} /> : null}          
+          {this.state.chain.length > 0 ? <Result id={this.state.id} chain={this.state.chain} /> : null}          
       </div>
     );    
   }
