@@ -28,7 +28,7 @@ class Result extends Component {
 
             if (trans.recipient === this.props.id || trans.sender === this.props.id) {
               return (
-                <div className="trans">
+                <div className={trans.recipient === this.props.id ? "gain" : "loss"}>
                   <p>amount: {trans.amount}</p>
                   <p>recipient: {trans.recipient}</p>
                   <p>sender: {trans.sender}</p>

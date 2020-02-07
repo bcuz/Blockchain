@@ -37,6 +37,11 @@
   }
 }
 
-.trans {
-  background-color: #eee;
+.gain {
+  background-color: green;
 }
+
+.loss {
+  background-color: red;
+}
+
