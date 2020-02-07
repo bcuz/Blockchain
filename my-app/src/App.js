@@ -1,23 +1,43 @@
 import React, { Component } from 'react';
-// import './App.css';
+import './App.css';
 import axios from 'axios';
 
 class App extends Component {
   state = {
-    chain: []
+    chain: [],
+    id: ''
   }
 
-  componentDidMount() {
+  getData() {
     axios
     .get('http://localhost:5000/chain')
     .then(response => this.setState({chain: response.data}))
     .catch(err => console.log(err));
   }
 
+  handleSubmit = event => {
+    event.preventDefault();
+    this.getData()
+  }
+
+  handleInputChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   render() {
     return (
       <div className="App">
-        <p>Current length of chain: {this.state.chain.length}</p>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            onChange={this.handleInputChange}
+            placeholder="id"
+            value={this.state.id}
+            name="id"
+          />
+          <button type="submit">Submit</button>
+          </form>
+          {/* might have to edit this a bit*/}
+          {this.state.chain.length > 0 ? <p>{this.state.chain.length}</p> : null}          
       </div>
     );    
   }
