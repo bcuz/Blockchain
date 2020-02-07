@@ -4,6 +4,7 @@ from time import time
 from uuid import uuid4
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 class Blockchain(object):
     def __init__(self):
@@ -126,6 +127,7 @@ class Blockchain(object):
 
 # Instantiate our Node
 app = Flask(__name__)
+cors = CORS(app)
 
 # Instantiate the Blockchain
 blockchain = Blockchain()
